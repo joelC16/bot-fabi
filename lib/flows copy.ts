@@ -197,7 +197,7 @@ export const flows: Record<string, Flow> = {
       {
         id: 9,
         step: "vsl_club",
-        question: "Recurso gratis",
+        question: "Vsl_club",
         field: "vsl_club",
         type: "end",
         next: "",
@@ -253,7 +253,6 @@ export const flows: Record<string, Flow> = {
         question:
           "¿Cuál es tu Instagram? 📲   📌Ejemplo: @fabimersan   Esto nos permitirá poder auditar brevemente tu cuenta y posicionamiento.  ",
         field: "instagram_2",
-        type: "text",
         placeholder: "@usuario",
         next: "objetivo_prioritario",
       },
@@ -274,7 +273,8 @@ export const flows: Record<string, Flow> = {
               "Quiero explorar el modelo grupal para crecer en ingresos."
             )
           ) {
-            return "facturacion_experta";
+            // return flows.flow_experta.questions[3].step;
+            return "flow_experta prioridad"
           } else {
             return "facturación_impulso";
           }
@@ -282,126 +282,6 @@ export const flows: Record<string, Flow> = {
       },
       {
         id: 4,
-        step: "facturacion_experta",
-        question:
-          "¿En qué rango de facturación se encuentra tu negocio? (Promedio de los últimos 2 meses) Selecciona una opción:",
-        field: "facturacion",
-        type: "multipleChoice",
-        multipleChoice: [
-          "Menos de $1000usd por mes",
-          "Entre $1000usd y $3000usd por mes",
-          "Entre $3000usd y $5000usd por mes",
-          "Arriba de los $5000usd por mes",
-        ],
-        next: "prioridad",
-      },
-      {
-        id: 5,
-        step: "prioridad",
-        question:
-          "¿Qué tan prioritario es para ti lanzar tu programa de alto impacto con tu marca personal? selecciona una opción:",
-        field: "prioridad",
-        type: "multipleChoice",
-        multipleChoice: [
-          "Quiero hacerlo en los próximos 3 meses",
-          "Quiero hacerlo en los próximos 6 meses",
-          "Me interesa solo explorar la idea para implementarla al año",
-        ],
-        next: "idea",
-      },
-      {
-        id: 6,
-        step: "idea",
-        question:
-          "¿Ya tienes idea del tipo de programa o mentoría que quieres lanzar? Selecciona una opción:",
-        field: "idea_programa",
-        type: "multipleChoice",
-        multipleChoice: [
-          "No, quiero mentoría para poder descifrar eso y lanzar con éxito",
-          "Sí, tengo una vaga idea de lo que quiero pero quiero que me guíen para aterrizarlo y lanzarlo con éxito",
-        ],
-        next: "implementacion",
-      },
-      {
-        id: 7,
-        step: "implementacion",
-        question:
-          "¿Estás dispuesto/a a poner el trabajo para implementar lo que aprendes y así ver los resultados? Selecciona una opción",
-        field: "disposicion",
-        type: "multipleChoice",
-        multipleChoice: [
-          "Sí, me interesa aprender con ustedes y recibir la guía para que lo ponga en práctica",
-          "No, en este momento quiero que alguien lo implemente por mi",
-        ],
-        next: "inversion",
-      },
-      {
-        id: 8,
-        step: "inversion",
-        question:
-          "Nuestra mentoría no es barata, pero GARANTIZAMOS 100% (POR CONTRATO) que tus resultados CRECERÁN. ¿Podrías disponer de al menos $1000usd para invertir y comenzar? Selecciona una opción",
-        field: "inversion",
-        type: "multipleChoice",
-        multipleChoice: [
-          "Sí, dispongo de al menos $1000usd para invertir en mi futuro",
-          "No dispongo pero puedo conseguir/pedir prestado al menos $1000usd para invertir en mi futuro",
-          "En este momento no dispongo ni puedo conseguirlo en el corto plazo",
-        ],
-        next: (answer: string) => {
-          if (
-            answer.includes(
-              "Sí, dispongo de al menos $1000usd para invertir en mi futuro"
-            ) ||
-            answer.includes(
-              "No dispongo pero puedo conseguir/pedir prestado al menos $1000usd para invertir en mi futuro"
-            )
-          ) {
-            return "booking_page";
-          } else {
-            return "alternativa";
-          }
-        },
-      },
-      {
-        id: 9,
-        step: "booking_page",
-        question: "booking page",
-        field: "booking_page",
-        type: "end",
-        next: "",
-      },
-      {
-        id: 10,
-        step: "alternativa",
-        question:
-          "Entiendo, en este momento eso es lo mínimo que se requiere para empezar con el trabajo. Pero, no te preocupes! Tenemos otra opción...\n¿Querés trabajar en tu Marca Personal y posicionamiento en redes sociales?",
-        field: "opcion_alternativa",
-        type: "multipleChoice",
-        multipleChoice: ["Sí, claro!", "En este momento no"],
-        next: (answer: string) => {
-          if (answer.includes("Sí")) return "vsl_club";
-          return "free_resource";
-        },
-      },
-      {
-        id: 11,
-        step: "vsl_club",
-        question: "Recurso gratis",
-        field: "vsl_club",
-        type: "end",
-        next: "",
-      },
-      {
-        id: 12,
-        step: "free_resource",
-        question:
-          "Súper válida tu respuesta ☺️ En ese caso te recomiendo que aproveches este recursos gratuito 🥳 (link)",
-        field: "free_resource",
-        type: "end",
-        next: "",
-      },
-      {
-        id: 13,
         step: "facturación_impulso",
         question:
           "¿En qué rango de facturación se encuentra tu negocio? (El promedio de los últimos 2 meses)    A partir de aquí definiremos tu plan de acción personalizado.",
@@ -415,8 +295,9 @@ export const flows: Record<string, Flow> = {
         ],
         next: "inversion",
       },
+      // /////////////////////////
       {
-        id: 14,
+        id: 5,
         step: "cliente_ideal",
         question:
           "¿Ya tienes claro quién es tu cliente ideal, tus diferenciales de Marca Personal y tus ofertas?",
@@ -429,7 +310,7 @@ export const flows: Record<string, Flow> = {
         next: "inversion",
       },
       {
-        id: 15,
+        id: 6,
         step: "acompanamiento",
         question:
           "Genial! 💪🏼 Nuestro proceso de trabajo es principalmente a través de programas de formación y mentoría donde recibes acompañamiento guiado para que tú o tu equipo se formen y puedan implementar las estrategias de posicionamiento y crecimiento.   ¿Estás dispuesto/a a poner el trabajo para implementar lo que aprendes y así ver cambios en tu negocio?",
@@ -442,7 +323,7 @@ export const flows: Record<string, Flow> = {
         next: "alternativa",
       },
       {
-        id: 16,
+        id: 7,
         step: "alternativa",
         question:
           "Entiendo, en este momento eso es lo mínimo que se requiere para empezar con el trabajo. Pero, no te preocupes! Tenemos otra opción...\n¿Querés trabajar en tu Marca Personal y posicionamiento en redes sociales?",
@@ -455,7 +336,7 @@ export const flows: Record<string, Flow> = {
         },
       },
       {
-        id: 17,
+        id: 8,
         step: "vsl_club",
         question: "Recurso gratis",
         field: "vsl_club",
@@ -463,7 +344,7 @@ export const flows: Record<string, Flow> = {
         next: "",
       },
       {
-        id: 18,
+        id: 9,
         step: "free_resource",
         question:
           "Súper válida tu respuesta ☺️ En ese caso te recomiendo que aproveches este recursos gratuito 🥳 (link)",
@@ -502,7 +383,7 @@ export const flows: Record<string, Flow> = {
           ) {
             return "instagram_2";
           } else {
-            return "cliente_ideal";
+            return flows.flow_impulso.questions[5]?.step || "";
           }
         },
       },
@@ -514,85 +395,9 @@ export const flows: Record<string, Flow> = {
         field: "instagram_2",
         type: "text",
         placeholder: "@usuario",
-        next: "cliente_ideal",
-      },
-      {
-        id: 3,
-        step: "cliente_ideal",
-        question:
-          "¿Ya tienes claro quién es tu cliente ideal, tus diferenciales de Marca Personal y tus ofertas?",
-        field: "cliente_ideal",
-        type: "multipleChoice",
-        multipleChoice: [
-          "No, pero quiero que me guíen con ello.",
-          "Sí, pero todavía le falta trabajo por ello quiero su ayuda.",
-        ],
-        next: "inversion",
-      },
-      {
-        id: 4,
-        step: "inversion",
-        question:
-          "Nuestra mentoría no es barata, pero GARANTIZAMOS 100% (POR CONTRATO) que tus resultados CRECERÁN. ¿Podrías disponer de al menos $1000usd para invertir y comenzar? Selecciona una opción",
-        field: "inversion",
-        type: "multipleChoice",
-        multipleChoice: [
-          "Sí, dispongo de al menos $1000usd para invertir en mi futuro",
-          "No dispongo pero puedo conseguir/pedir prestado al menos $1000usd para invertir en mi futuro",
-          "En este momento no dispongo ni puedo conseguirlo en el corto plazo",
-        ],
-        next: (answer: string) => {
-          if (
-            answer.includes(
-              "Sí, dispongo de al menos $1000usd para invertir en mi futuro"
-            ) ||
-            answer.includes(
-              "No dispongo pero puedo conseguir/pedir prestado al menos $1000usd para invertir en mi futuro"
-            )
-          ) {
-            return "booking_page";
-          } else {
-            return "alternativa";
-          }
+        next: () => {
+          return flows.flow_impulso.questions[5].step;
         },
-      },
-      {
-        id: 5,
-        step: "booking_page",
-        question: "booking page",
-        field: "booking_page",
-        type: "end",
-        next: "",
-      },
-      {
-        id: 6,
-        step: "alternativa",
-        question:
-          "Entiendo, en este momento eso es lo mínimo que se requiere para empezar con el trabajo. Pero, no te preocupes! Tenemos otra opción...\n¿Querés trabajar en tu Marca Personal y posicionamiento en redes sociales?",
-        field: "opcion_alternativa",
-        type: "multipleChoice",
-        multipleChoice: ["Sí, claro!", "En este momento no"],
-        next: (answer: string) => {
-          if (answer.includes("Sí")) return "vsl_club";
-          return "free_resource";
-        },
-      },
-      {
-        id: 7,
-        step: "vsl_club",
-        question: "Recurso gratis",
-        field: "vsl_club",
-        type: "end",
-        next: "",
-      },
-      {
-        id: 8,
-        step: "free_resource",
-        question:
-          "Súper válida tu respuesta ☺️ En ese caso te recomiendo que aproveches este recursos gratuito 🥳 (link)",
-        field: "free_resource",
-        type: "end",
-        next: "",
       },
     ],
   },
@@ -607,7 +412,6 @@ export const flows: Record<string, Flow> = {
         type: "end",
         next: "",
       },
-
     ],
   },
 };
