@@ -25,6 +25,18 @@ export default function Chat() {
   const currentQuestion: Question | undefined = flow.questions[stepIndex]
 
   useEffect(() => {
+    // Mensaje inicial personalizado
+    setMessages([
+      {
+        id: `bot-welcome`,
+        text: "Hola! 😊 Completa este breve form para conocer mejor tu caso y negocio, y aplicar para que te ayudemos a posicionar y escalar tu Marca Personal🚀   Si vemos que podemos ayudarte, mi equipo te contactará para contarte los próximos pasos.✨   PD: Sólo podremos plantear tu plan de acción, si llegas hasta el final. Por ello, no abandones esta ventana hasta completar el proceso.  ",
+        isUser: false,
+      },
+    ])
+  }, [])
+
+
+  useEffect(() => {
     if (currentQuestion) {
       setMessages((prev) => [
         ...prev,
@@ -84,7 +96,7 @@ export default function Chat() {
       case "email":
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
       case "tel":
-        return /^\+?\d{7,15}$/.test(value) // Básico: 7-15 números, opcional "+"
+        return /^\+?[1-9]\d{6,14}$/.test(value) // Básico: 7-15 números, opcional "+"
       case "text":
       default:
         return true // por defecto, cualquier texto es válido si no hay regex
@@ -133,17 +145,19 @@ export default function Chat() {
         )
       case "tel":
         return (
-            <PhoneInput
-              containerClass="flex-1"
-              inputClass="rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-primary"
-              value={inputValue}
-              onChange={(e: SetStateAction<string>) => setInputValue(e)}
-              placeholder={currentQuestion?.placeholder}
-              disabled={isLoading}
-              country={'ar'}
-              enableSearch={true}
-
-            />
+          <PhoneInput
+            containerClass="flex-1"
+            inputClass="rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-primary"
+            value={inputValue}
+            onChange={(e: SetStateAction<string>) => {
+              setInputValue(e)
+              setErrorInput("")
+            }}
+            placeholder={currentQuestion?.placeholder}
+            disabled={isLoading}
+            country={'ar'}
+            enableSearch={true}
+          />
         )
       case "email":
         return (
@@ -153,7 +167,10 @@ export default function Chat() {
             className="w-full flex-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
             placeholder={currentQuestion?.placeholder || "Escribe tu respuesta..."}
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => {
+              setInputValue(e.target.value)
+              setErrorInput("")
+            }}
             onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
             disabled={isLoading}
           />
@@ -161,7 +178,7 @@ export default function Chat() {
       case "end":
         return (
           <div className="absolute z-10 bg-white flex flex-col w-32 h-16">
-            
+
           </div>
         )
       default:
@@ -172,7 +189,10 @@ export default function Chat() {
             className="w-full flex-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
             placeholder={currentQuestion?.placeholder || "Escribe tu respuesta..."}
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => {
+              setInputValue(e.target.value)
+              setErrorInput("")
+            }}
             onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
             disabled={isLoading}
           />
@@ -234,11 +254,17 @@ export default function Chat() {
             <div ref={messagesEndRef} />
           </div>
 
-          <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="w-full flex items-center gap-2">
-            {renderInput()}
-            <Button onClick={handleSubmit} disabled={isLoading || !inputValue.trim()}>
-              <Send className="h-4 w-4" />
-            </Button>
+          <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="w-full flex flex-col items-center gap-2">
+            <div className="w-full flex items-center gap-2">
+              {renderInput()}
+              <Button onClick={handleSubmit} disabled={isLoading || !inputValue.trim()}>
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+            {errorInput && (
+              <p className="text-red-500 text-sm mt-1 ml-2">{errorInput}</p>
+            )}
+
           </form>
         </Card>
 
