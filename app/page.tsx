@@ -147,7 +147,7 @@ export default function Chat() {
       case "tel":
         return (
           <PhoneInput
-            containerClass="flex-1"
+            containerClass="phone-dropdown-up flex-1"
             inputClass="rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-primary"
             value={inputValue}
             onChange={(e: SetStateAction<string>) => {
@@ -211,7 +211,7 @@ export default function Chat() {
 
 
       <div className="flex-1 max-w-3xl w-full mx-auto p-4">
-        <Card className="relative bg-white rounded-xl shadow-md p-6 mb-4 min-h-[60vh] flex flex-col ">
+        <Card className="relative bg-white rounded-xl shadow-md p-6 mb-4 h-[60vh] flex flex-col overflow-y-auto">
           <div className="space-y-4 mb-4 flex-grow overflow-y-auto">
             {messages.map((msg) => (
               <div
