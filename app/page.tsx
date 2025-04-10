@@ -81,7 +81,7 @@ export default function Chat() {
   
     const nextQuestion = nextFlow.questions[nextIndex]
 
-    const WEBHOOK_URL = "https://neuralgeniusai.com/webhook-test/fabiData"
+    const WEBHOOK_URL = "https://neuralgeniusai.com/webhook/fabiData"
   
     if (nextQuestion?.type === "end") {
       // Enviamos los datos a n8n
