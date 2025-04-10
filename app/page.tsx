@@ -54,30 +54,52 @@ export default function Chat() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  const handleAnswer = (answer: string) => {
+  const handleAnswer = async (answer: string) => {
     const userMsg = {
       id: `user-${crypto.randomUUID()}`,
       text: answer,
       isUser: true,
     }
-
+  
     setMessages((prev) => [...prev, userMsg])
-    setFormData((prev) => ({ ...prev, [currentQuestion?.field || `field${stepIndex}`]: answer }))
-
+    const updatedFormData = { ...formData, [currentQuestion?.field || `field${stepIndex}`]: answer }
+    setFormData(updatedFormData)
+  
     let nextStep = ""
-
+  
     if (typeof currentQuestion?.next === "function") {
       nextStep = currentQuestion.next(answer, formData)
     } else {
       nextStep = currentQuestion?.next || ""
     }
-
-    // Buscar siguiente pregunta
+  
+    // Verificamos si la siguiente pregunta es la del tipo "end"
     const nextFlow = flows[nextStep] || flow
     const nextIndex = nextFlow === flow
       ? nextFlow.questions.findIndex((q) => q.step === nextStep)
       : 0
+  
+    const nextQuestion = nextFlow.questions[nextIndex]
 
+    const WEBHOOK_URL = "https://neuralgeniusai.com/webhook-test/fabiData"
+  
+    if (nextQuestion?.type === "end") {
+      // Enviamos los datos a n8n
+      try {
+        await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedFormData),
+          mode: "no-cors",
+        })
+        console.log("Datos enviados a n8n correctamente.")
+      } catch (error) {
+        console.error("Error al enviar datos a n8n:", error)
+      }
+    }
+  
     if (nextFlow !== flow) {
       setFlow(nextFlow)
     }
