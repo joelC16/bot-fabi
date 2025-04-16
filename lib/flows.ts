@@ -25,14 +25,13 @@ export const flows: Record<string, Flow> = {
         question: "¿Lista? Primero, cuéntame tu nombre👇🏼",
         field: "nombre",
         placeholder: "Escribí tu nombre",
-        type: "text",
+        type: "nombre",
         next: "telefono",
       },
       {
         id: 1,
         step: "telefono",
-        question:
-          "Genial 🤩 ¿Cuál es tu número de WhatsApp?\nEste se usará solo para confirmar la sesión. Si el número es inválido o no responde, se cancelará.",
+        question: `Genial {{nombre}} 🤩 ¿Cuál es tu número de WhatsApp?\nEste se usará solo para confirmar la sesión. Si el número es inválido o no responde, se cancelará.`,
         field: "whatsapp",
         placeholder: "Escribí tu número",
         type: "tel",
@@ -44,7 +43,7 @@ export const flows: Record<string, Flow> = {
         question: "Cuéntame tu mejor correo electrónico 👇🏼",
         field: "email",
         placeholder: "Escribí tu correo",
-        validation: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        // validation: /^[a-zA-Z0-9](\.?[a-zA-Z0-9_+-])*@gmail\.com$/,
         type: "email",
         next: "situacion",
       },
@@ -80,6 +79,7 @@ export const flows: Record<string, Flow> = {
         question: "¿En qué rubro estás? 📌Ejemplo: Soy Health Coach.",
         field: "rubro",
         placeholder: "Escribí tu rubro",
+        type: "rubro",
         next: "instagram",
       },
       {
@@ -89,6 +89,7 @@ export const flows: Record<string, Flow> = {
           "¿Cuál es tu Instagram? 📲 📌Ejemplo: @fabimersan\nSe usará para auditar tu cuenta.",
         field: "instagram",
         placeholder: "@usuario",
+        type: "instagram",
         next: "facturacion",
       },
       {
@@ -137,7 +138,7 @@ export const flows: Record<string, Flow> = {
         id: 5,
         step: "implementacion",
         question:
-          "¿Estás dispuesto/a a poner el trabajo para implementar lo que aprendes y así ver los resultados? Selecciona una opción",
+          "Genial! 💪🏼 Nuestro proceso de trabajo es  a través de formación y mentoría donde recibes acompañamiento guiado personalizado para que tú o tu equipo aprendan y puedan implementar la metodología probado para lograr el lanzamiento del programa grupal con éxito. ¿Estás dispuesto/a a poner el trabajo para implementar lo que aprendes y así ver los resultados?",
         field: "disposicion",
         type: "multipleChoice",
         multipleChoice: [
@@ -150,7 +151,7 @@ export const flows: Record<string, Flow> = {
         id: 6,
         step: "inversion",
         question:
-          "Nuestra mentoría no es barata, pero GARANTIZAMOS 100% (POR CONTRATO) que tus resultados CRECERÁN. ¿Podrías disponer de al menos $1000usd para invertir y comenzar? Selecciona una opción",
+          "Nuestra mentoría no es barata, pero GARANTIZAMOS 100% (POR CONTRATO) a nuestras alumnas que sus resultados CRECERÁN. Habiendo mencionado eso, en caso de que el plan propuesto te encante... ¿Podrías disponer de al menos $1000usd para invertir y comenzar? Este no es el valor total del programa, es sólo un valor de referencia para iniciar con el proceso de mentoría. (No te preocupes que no se te cobrará nada en este momento. Nos aseguraremos de que estés seguro/a antes de tu inversión).",
         field: "inversion",
         type: "multipleChoice",
         multipleChoice: [
@@ -197,7 +198,7 @@ export const flows: Record<string, Flow> = {
       {
         id: 9,
         step: "vsl_club",
-        question: "Recurso gratis",
+        question: "VSL CLUB",
         field: "vsl_club",
         type: "end",
         next: "",
@@ -223,6 +224,7 @@ export const flows: Record<string, Flow> = {
         question: "¿En qué rubro estás? 📌Ejemplo: Soy Health Coach.",
         field: "rubro",
         placeholder: "Escribí tu rubro",
+        type: "rubro",
         next: "instagram_1",
       },
       {
@@ -253,7 +255,7 @@ export const flows: Record<string, Flow> = {
         question:
           "¿Cuál es tu Instagram? 📲   📌Ejemplo: @fabimersan   Esto nos permitirá poder auditar brevemente tu cuenta y posicionamiento.  ",
         field: "instagram_2",
-        type: "text",
+        type: "instagram",
         placeholder: "@usuario",
         next: "objetivo_prioritario",
       },
@@ -326,7 +328,7 @@ export const flows: Record<string, Flow> = {
         id: 7,
         step: "implementacion",
         question:
-          "¿Estás dispuesto/a a poner el trabajo para implementar lo que aprendes y así ver los resultados? Selecciona una opción",
+          "Genial! 💪🏼 Nuestro proceso de trabajo es  a través de formación y mentoría donde recibes acompañamiento guiado personalizado para que tú o tu equipo aprendan y puedan implementar la metodología probado para lograr el lanzamiento del programa grupal con éxito. ¿Estás dispuesto/a a poner el trabajo para implementar lo que aprendes y así ver los resultados?",
         field: "disposicion",
         type: "multipleChoice",
         multipleChoice: [
@@ -339,7 +341,7 @@ export const flows: Record<string, Flow> = {
         id: 8,
         step: "inversion",
         question:
-          "Nuestra mentoría no es barata, pero GARANTIZAMOS 100% (POR CONTRATO) que tus resultados CRECERÁN. ¿Podrías disponer de al menos $1000usd para invertir y comenzar? Selecciona una opción",
+          "Nuestra mentoría no es barata, pero GARANTIZAMOS 100% (POR CONTRATO) a nuestras alumnas que sus resultados CRECERÁN. Habiendo mencionado eso, en caso de que el plan propuesto te encante... ¿Podrías disponer de al menos $1000usd para invertir y comenzar? Este no es el valor total del programa, es sólo un valor de referencia para iniciar con el proceso de mentoría. (No te preocupes que no se te cobrará nada en este momento. Nos aseguraremos de que estés seguro/a antes de tu inversión).",
         field: "inversion",
         type: "multipleChoice",
         multipleChoice: [
@@ -386,7 +388,7 @@ export const flows: Record<string, Flow> = {
       {
         id: 11,
         step: "vsl_club",
-        question: "Recurso gratis",
+        question: "VSL CLUB",
         field: "vsl_club",
         type: "end",
         next: "",
@@ -413,7 +415,7 @@ export const flows: Record<string, Flow> = {
           "Entre $3,000 y $5,000 por mes.",
           "Arriba de los $5,000 por mes.",
         ],
-        next: "inversion",
+        next: "cliente_ideal",
       },
       {
         id: 14,
@@ -426,7 +428,7 @@ export const flows: Record<string, Flow> = {
           "No, pero quiero que me guíen con ello.",
           "Sí, pero todavía le falta trabajo por ello quiero su ayuda.",
         ],
-        next: "inversion",
+        next: "acompanamiento",
       },
       {
         id: 15,
@@ -439,25 +441,39 @@ export const flows: Record<string, Flow> = {
           "Sí, me interesa aprender con ustedes y recibir la guía para que lo ponga en práctica.",
           "No, en este momento quiero que alguien lo implemente por mi.",
         ],
-        next: "alternativa",
+        next: "inversion_presupuesto",
       },
       {
         id: 16,
-        step: "alternativa",
+        step: "inversion_presupuesto",
         question:
-          "Entiendo, en este momento eso es lo mínimo que se requiere para empezar con el trabajo. Pero, no te preocupes! Tenemos otra opción...\n¿Querés trabajar en tu Marca Personal y posicionamiento en redes sociales?",
+          "En caso de que el plan propuesto te encante y te ayuda a llegar a tus metas... ¿Podrías disponer de al menos $100usd para invertir y comenzar? Este no es el precio, es sólo un valor de referencia para iniciar con el proceso de mentoría. (No te preocupes que no se te cobrará nada en este momento. Nos aseguraremos de que estés seguro/a antes de tu inversión).",
         field: "opcion_alternativa",
         type: "multipleChoice",
-        multipleChoice: ["Sí, claro!", "En este momento no"],
+        multipleChoice: [
+          "Sí, dispongo de al menos $100usd para invertir.",
+          "No dispongo pero podría conseguirlo en caso de que sea el camino indicado para mi.",
+          "En este momento no dispongo ni tampoco puedo conseguirlo en el corto plazo.",
+        ],
         next: (answer: string) => {
-          if (answer.includes("Sí")) return "vsl_club";
-          return "free_resource";
+          if (
+            answer.includes(
+              "Sí, dispongo de al menos $100usd para invertir."
+            ) ||
+            answer.includes(
+              "No dispongo pero podría conseguirlo en caso de que sea el camino indicado para mi."
+            )
+          ) {
+            return "vsl_club";
+          } else {
+            return "free_resource";
+          }
         },
       },
       {
         id: 17,
         step: "vsl_club",
-        question: "Recurso gratis",
+        question: "VSL CLUB",
         field: "vsl_club",
         type: "end",
         next: "",
@@ -481,6 +497,7 @@ export const flows: Record<string, Flow> = {
         step: "rubro",
         question: "¿En qué rubro estás? 📌Ejemplo: Soy Health Coach.",
         field: "rubro",
+        type: "rubro",
         placeholder: "Escribí tu rubro",
         next: "instagram_1",
       },
@@ -512,7 +529,7 @@ export const flows: Record<string, Flow> = {
         question:
           "¿Cuál es tu Instagram? 📲   📌Ejemplo: @fabimersan   Esto nos permitirá poder auditar brevemente tu cuenta y posicionamiento.  ",
         field: "instagram_2",
-        type: "text",
+        type: "instagram",
         placeholder: "@usuario",
         next: "cliente_ideal",
       },
@@ -527,66 +544,58 @@ export const flows: Record<string, Flow> = {
           "No, pero quiero que me guíen con ello.",
           "Sí, pero todavía le falta trabajo por ello quiero su ayuda.",
         ],
-        next: "inversion",
+        next: "acompanamiento",
       },
       {
         id: 4,
-        step: "inversion",
+        step: "acompanamiento",
         question:
-          "Nuestra mentoría no es barata, pero GARANTIZAMOS 100% (POR CONTRATO) que tus resultados CRECERÁN. ¿Podrías disponer de al menos $1000usd para invertir y comenzar? Selecciona una opción",
-        field: "inversion",
+          "Genial! 💪🏼 Nuestro proceso de trabajo es principalmente a través de programas de formación y mentoría donde recibes acompañamiento guiado para que tú o tu equipo se formen y puedan implementar las estrategias de posicionamiento y crecimiento.   ¿Estás dispuesto/a a poner el trabajo para implementar lo que aprendes y así ver cambios en tu negocio?",
+        field: "acompanamiento",
         type: "multipleChoice",
         multipleChoice: [
-          "Sí, dispongo de al menos $1000usd para invertir en mi futuro",
-          "No dispongo pero puedo conseguir/pedir prestado al menos $1000usd para invertir en mi futuro",
-          "En este momento no dispongo ni puedo conseguirlo en el corto plazo",
+          "Sí, me interesa aprender con ustedes y recibir la guía para que lo ponga en práctica.",
+          "No, en este momento quiero que alguien lo implemente por mi.",
+        ],
+        next: "inversion_presupuesto",
+      },
+      {
+        id: 5,
+        step: "inversion_presupuesto",
+        question:
+          "En caso de que el plan propuesto te encante y te ayuda a llegar a tus metas... ¿Podrías disponer de al menos $100usd para invertir y comenzar? Este no es el precio, es sólo un valor de referencia para iniciar con el proceso de mentoría. (No te preocupes que no se te cobrará nada en este momento. Nos aseguraremos de que estés seguro/a antes de tu inversión).",
+        field: "opcion_alternativa",
+        type: "multipleChoice",
+        multipleChoice: [
+          "Sí, dispongo de al menos $100usd para invertir.",
+          "No dispongo pero podría conseguirlo en caso de que sea el camino indicado para mi.",
+          "En este momento no dispongo ni tampoco puedo conseguirlo en el corto plazo.",
         ],
         next: (answer: string) => {
           if (
             answer.includes(
-              "Sí, dispongo de al menos $1000usd para invertir en mi futuro"
+              "Sí, dispongo de al menos $100usd para invertir."
             ) ||
             answer.includes(
-              "No dispongo pero puedo conseguir/pedir prestado al menos $1000usd para invertir en mi futuro"
+              "No dispongo pero podría conseguirlo en caso de que sea el camino indicado para mi."
             )
           ) {
-            return "booking_page";
+            return "vsl_club";
           } else {
-            return "alternativa";
+            return "free_resource";
           }
         },
       },
       {
-        id: 5,
-        step: "booking_page",
-        question: "booking page",
-        field: "booking_page",
-        type: "end",
-        next: "",
-      },
-      {
         id: 6,
-        step: "alternativa",
-        question:
-          "Entiendo, en este momento eso es lo mínimo que se requiere para empezar con el trabajo. Pero, no te preocupes! Tenemos otra opción...\n¿Querés trabajar en tu Marca Personal y posicionamiento en redes sociales?",
-        field: "opcion_alternativa",
-        type: "multipleChoice",
-        multipleChoice: ["Sí, claro!", "En este momento no"],
-        next: (answer: string) => {
-          if (answer.includes("Sí")) return "vsl_club";
-          return "free_resource";
-        },
-      },
-      {
-        id: 7,
         step: "vsl_club",
-        question: "Recurso gratis",
+        question: "VSL CLUB",
         field: "vsl_club",
         type: "end",
         next: "",
       },
       {
-        id: 8,
+        id: 7,
         step: "free_resource",
         question:
           "Súper válida tu respuesta ☺️ En ese caso te recomiendo que aproveches este recursos gratuito 🥳 (link)",
@@ -602,12 +611,12 @@ export const flows: Record<string, Flow> = {
       {
         id: 0,
         step: "fin",
-        question: "Entiendo. En este momento nuestro foco y metodología está enfocada en ayudar a profesionales que venden servicios y quieren escalar su Marca Personal y su negocio.   Actualmente no ayudamos a personas que venden únicamente productos. Por lo tanto, no seríamos los indicados para apoyarte.   Si alguna vez buscas el otro camino, no dudes en volver a contactarnos! ☺️  ",
+        question:
+          "Entiendo. En este momento nuestro foco y metodología está enfocada en ayudar a profesionales que venden servicios y quieren escalar su Marca Personal y su negocio.   Actualmente no ayudamos a personas que venden únicamente productos. Por lo tanto, no seríamos los indicados para apoyarte.   Si alguna vez buscas el otro camino, no dudes en volver a contactarnos! ☺️  ",
         field: "fin",
         type: "end",
         next: "",
       },
-
     ],
   },
 };

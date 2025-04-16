@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import PhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/style.css"
 import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import { Avatar } from "@radix-ui/react-avatar"
 
@@ -25,6 +24,26 @@ export default function Chat() {
 
   const currentQuestion: Question | undefined = flow.questions[stepIndex]
 
+
+
+
+  // hace que los botones del multiple choice tarden 1 segundo en cargarse
+  const [showButtons, setShowButtons] = useState(false);
+  useEffect(() => {
+    if (currentQuestion?.type === "multipleChoice") {
+      const timer = setTimeout(() => {
+        setShowButtons(true);
+      }, 1200);
+
+      return () => {
+        clearTimeout(timer);
+        setShowButtons(false);
+      };
+    }
+  }, [currentQuestion]);
+
+
+
   useEffect(() => {
     // Mensaje inicial personalizado
     setMessages([
@@ -33,22 +52,13 @@ export default function Chat() {
         text: "Hola! 😊 Completa este breve form para conocer mejor tu caso y negocio, y aplicar para que te ayudemos a posicionar y escalar tu Marca Personal🚀   Si vemos que podemos ayudarte, mi equipo te contactará para contarte los próximos pasos.✨   PD: Sólo podremos plantear tu plan de acción, si llegas hasta el final. Por ello, no abandones esta ventana hasta completar el proceso.  ",
         isUser: false,
       },
+      {
+        id: `bot-nombre`,
+        text: "¿Lista? Primero, cuéntame tu nombre👇🏼",
+        isUser: false,
+      },
     ])
   }, [])
-
-
-  useEffect(() => {
-    if (currentQuestion) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `bot-${crypto.randomUUID()}`,
-          text: currentQuestion.question,
-          isUser: false,
-        },
-      ])
-    }
-  }, [stepIndex, flow])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -60,29 +70,35 @@ export default function Chat() {
       text: answer,
       isUser: true,
     }
-  
+
     setMessages((prev) => [...prev, userMsg])
     const updatedFormData = { ...formData, [currentQuestion?.field || `field${stepIndex}`]: answer }
     setFormData(updatedFormData)
-  
+
     let nextStep = ""
-  
+
     if (typeof currentQuestion?.next === "function") {
       nextStep = currentQuestion.next(answer, formData)
     } else {
       nextStep = currentQuestion?.next || ""
     }
-  
+
     // Verificamos si la siguiente pregunta es la del tipo "end"
     const nextFlow = flows[nextStep] || flow
     const nextIndex = nextFlow === flow
       ? nextFlow.questions.findIndex((q) => q.step === nextStep)
       : 0
-  
+
     const nextQuestion = nextFlow.questions[nextIndex]
 
+
+
+
+    // Muestra "escribiendo..."
+    setIsLoading(true)
+
     const WEBHOOK_URL = "https://neuralgeniusai.com/webhook/fabiData"
-  
+
     if (nextQuestion?.type === "end") {
       // Enviamos los datos a n8n
       try {
@@ -99,11 +115,44 @@ export default function Chat() {
         console.error("Error al enviar datos a n8n:", error)
       }
     }
-  
+
     if (nextFlow !== flow) {
       setFlow(nextFlow)
     }
     setStepIndex(nextIndex)
+
+    // Simulamos un pequeño delay para mostrar "escribiendo..."
+    setTimeout(() => {
+      if (nextFlow !== flow) setFlow(nextFlow)
+      setStepIndex(nextIndex)
+
+      if (nextQuestion) {
+        let botText = nextQuestion.question
+
+        // Si el texto incluye {{nombre}}, lo reemplazamos
+        if (botText.includes("{{nombre}}")) {
+          botText = botText.replace("{{nombre}}", updatedFormData.nombre || "")
+
+          const botMsg = {
+            id: `bot-${crypto.randomUUID()}`,
+            text: botText,
+            isUser: false,
+          }
+          setMessages((prev) => [...prev, botMsg])
+        } else {
+          const botMsg = {
+            id: `bot-${crypto.randomUUID()}`,
+            text: nextQuestion.question,
+            isUser: false,
+          }
+          setMessages((prev) => [...prev, botMsg])
+
+        }
+
+      }
+
+      setIsLoading(false)
+    }, 1000)
   }
 
 
@@ -117,10 +166,15 @@ export default function Chat() {
 
     switch (type) {
       case "email":
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+        return /^[a-zA-Z0-9](\.?[a-zA-Z0-9_+-])*@gmail\.com$/.test(value)
       case "tel":
         return /^\+?[1-9]\d{6,14}$/.test(value) // Básico: 7-15 números, opcional "+"
-      case "text":
+      case "nombre":
+        return /^[A-Za-zÀ-ÿ]{3,20}(?=\s|$)/.test(value) // Básico: Al menos 3 letras, incluyendo caracteres con acentos
+      case "rubro":
+        return /^[A-Za-z\s]{4,19}$/.test(value.trim())
+      case "instagram":
+        return /^[A-Za-z0-9._-]{1,30}$/.test(value) // Al menos 3 letras, incluyendo caracteres con acentos
       default:
         return true // por defecto, cualquier texto es válido si no hay regex
     }
@@ -131,7 +185,9 @@ export default function Chat() {
     const messages: Record<string, string> = {
       email: "Por favor, ingresá un email válido.",
       whatsapp: "Ingresá un número válido.",
-      nombre: "Tu nombre debe tener al menos 3 letras.",
+      nombre: "Por favor, ingresa un nombre válido.",
+      tel: "Por favor, ingresa un número de teléfono válido.",
+      rubro: "Por favor, ingresa rubro v.",
       ciudad: "Ingresá una ciudad válida.",
     }
 
@@ -155,7 +211,7 @@ export default function Chat() {
       case "multipleChoice":
         return (
           <div className="px-4 pb-2 z-10 bg-white flex flex-wrap items-center gap-2">
-            {currentQuestion?.multipleChoice?.map((option, i) => (
+            {showButtons && currentQuestion?.multipleChoice?.map((option, i) => (
               <button
                 key={i}
                 className="px-4 py-2 bg-[#2383A2] text-white rounded-md hover:bg-[#b4dbd7] transition text-left"
@@ -234,7 +290,7 @@ export default function Chat() {
 
       <div className="flex-1 max-w-3xl w-full mx-auto p-4">
         <Card className="relative bg-white rounded-xl shadow-md p-6 mb-4 h-[60vh] flex flex-col overflow-y-auto">
-          <div className="space-y-4 mb-4 flex-grow overflow-y-auto">
+          <div className="space-y-4 mb-4 flex-grow overflow-y-auto min-h-fit">
             {messages.map((msg) => (
               <div
                 key={msg.id}
@@ -242,7 +298,7 @@ export default function Chat() {
               >
                 {!msg.isUser && (
                   <Avatar className="rounded-full h-8 w-8 mr-2 bg-[#6D4C41] overflow-hidden">
-                    <img src="/placeholder.svg?height=32&width=32" alt="Avatar" />
+                    <img src="/profilePicture.jpeg" alt="Avatar" />
                   </Avatar>
                 )}
                 <Card className={`max-w-[80%] p-3 rounded-lg ${msg.isUser ? "bg-[#FFC969] text-[#545454]" : "bg-[#F89082] "
